@@ -15,16 +15,25 @@ interface Post {
 interface PostCardProps {
   post: Post;
   provider: ethers.providers.Provider | null;
+  userAddress: string | null;
 }
 
-const PostCard = ({ post, provider }: PostCardProps) => {
+const PostCard = ({ post, provider, userAddress }: PostCardProps) => {
   const [liked, setLiked] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [likes , setLikes] = useState(post.likeCount);
+  const [likes, setLikes] = useState(post.likeCount);
 
+  useEffect(() => {
+    const checkIfLiked = async () => {
+      if (provider && userAddress) {
+        const contract = getContract(provider);
+        const hasLiked = await contract.hasLikedPost(userAddress, post.id);
+        setLiked(hasLiked);
+      }
+    };
 
-  // useEffect(() => {
-  // }, [post.id]);
+    checkIfLiked();
+  }, [provider, userAddress, post.id]);
 
   const handleLike = async () => {
     if (!provider) {
@@ -32,18 +41,16 @@ const PostCard = ({ post, provider }: PostCardProps) => {
       return;
     }
 
-    if (post.likeCount >= 1) {
-      alert("You cannot like this post again.");
+    if (liked) {
+      alert("You have already liked this post.");
       return;
     }
 
     setLoading(true);
     try {
       const contract = getContract(provider);
-
       await contract.likePost(post.id);
-
-      setLiked(true); 
+      setLiked(true);
       setLikes(likes + 1);
     } catch (error) {
       alert("Failed to like the post. Please try again.");
@@ -68,7 +75,7 @@ const PostCard = ({ post, provider }: PostCardProps) => {
       <div className="flex items-center space-x-2 mt-4">
         <span className="text-gray-600">{likes} Likes</span>
 
-        {post.likeCount >= 1 ? (
+        {liked ? (
           <span className="text-green-600 font-semibold">Liked</span>
         ) : (
           <button
@@ -76,7 +83,7 @@ const PostCard = ({ post, provider }: PostCardProps) => {
             className={`text-blue-600 font-semibold hover:text-blue-800 ${
               liked ? "bg-blue-100 cursor-not-allowed" : ""
             }`}
-            disabled={liked || post.likeCount >= 1 || loading}
+            disabled={liked || loading}
           >
             {loading ? "Liking..." : "Like"}
           </button>

@@ -3,6 +3,8 @@
 import { useState } from 'react';
 import { getContract } from '../utils/contract';
 import axios from 'axios';
+import { useRouter } from 'next/navigation';
+
 
 // pinata
 const JWT = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySW5mb3JtYXRpb24iOnsiaWQiOiI1ZDYwMGZiNS02M2I1LTQzM2QtYWVmNi0yY2EwNDNjMDRiYzAiLCJlbWFpbCI6ImJlZXJhcHBhYmhhcmF0aGJAZ21haWwuY29tIiwiZW1haWxfdmVyaWZpZWQiOnRydWUsInBpbl9wb2xpY3kiOnsicmVnaW9ucyI6W3siaWQiOiJGUkExIiwiZGVzaXJlZFJlcGxpY2F0aW9uQ291bnQiOjF9LHsiaWQiOiJOWUMxIiwiZGVzaXJlZFJlcGxpY2F0aW9uQ291bnQiOjF9XSwidmVyc2lvbiI6MX0sIm1mYV9lbmFibGVkIjpmYWxzZSwic3RhdHVzIjoiQUNUSVZFIn0sImF1dGhlbnRpY2F0aW9uVHlwZSI6InNjb3BlZEtleSIsInNjb3BlZEtleUtleSI6ImFhN2Y1NjgwN2Y1OGJiNzU1OWUxIiwic2NvcGVkS2V5U2VjcmV0IjoiNjIwNWJhODI3NmY0YjY1YzcyM2UxYzFjYjEzYTZjNjAyYzIzOTlmNTNhYjEyZDU2MGY2NmVkOTNmYTRiODZkMiIsImlhdCI6MTcyNjY1Mzc0MH0.MoKrWFddLZlc3YV3t3_gacnvN5a9S0QqlVg4pn38b1o";
@@ -44,7 +46,7 @@ const CreatePost = ({ provider }: any) => {
   const [imageFile, setImageFile] = useState<File | null>(null);
   const [imageUrl, setImageUrl] = useState('');
   const [isUploading, setIsUploading] = useState(false);
-
+  const router = useRouter();
   const handleSubmit = async () => {
     if (!provider) {
       return alert('Please connect wallet first');
@@ -67,6 +69,7 @@ const CreatePost = ({ provider }: any) => {
     try {
       const tx = await contract.createPost(content, pinataImageUrl);
       await tx.wait();
+      router.push("/");
       alert('Post created successfully!');
       setContent('');  
       setImageFile(null); 
