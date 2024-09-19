@@ -14,7 +14,7 @@ interface Post {
 
 interface PostCardProps {
   post: Post;
-  provider: ethers.providers.Provider | null;
+  provider: any;
   userAddress: string | null;
 }
 

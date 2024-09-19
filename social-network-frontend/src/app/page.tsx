@@ -8,7 +8,7 @@ import { ethers } from 'ethers';
 import { useAuth } from './context/AuthContext';
 
 const Home = () => {
-  const [provider, setProvider] = useState<ethers.providers.Provider | null>(null);
+  const [provider, setProvider] = useState<any>(null);
   // const { provider , setProvider } = useWalletProvider();
   const [userAddress, setUserAddress] = useState<string | null>(null);
   const [posts, setPosts] = useState<any[]>([]);

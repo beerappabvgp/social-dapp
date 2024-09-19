@@ -10,9 +10,9 @@ const Navbar = ({ setProvider }: any) => {
   useEffect(() => {
     const checkWalletConnection = async () => {
       const savedAddress = localStorage.getItem('walletAddress');
-      if (savedAddress && window.ethereum) {
+      if (savedAddress && (window as any).ethereum) {
         try {
-          const provider = new ethers.providers.Web3Provider(window.ethereum);
+          const provider = new (ethers as any).providers.Web3Provider((window as any).ethereum);
           setProvider(provider);
         } catch (err) {
           console.error('Failed to reconnect wallet:', err);
