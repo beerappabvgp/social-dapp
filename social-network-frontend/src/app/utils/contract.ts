@@ -1,5 +1,5 @@
 import { ethers } from 'ethers';
-import * as abi from "../../../../artifacts/contracts/SocialNetwork.sol/SocialNetwork.json"
+import * as abi from "../../../SocialNetwork.json"
 
 
 
