@@ -4,7 +4,7 @@ import { connectWallet } from '../utils/wallet';
 const ConnectWallet = ({ setProvider } : any) => {
   const [address, setAddress] = useState<string | null>(null);
 
-  // Function to connect the wallet
+  
   const handleConnect = async () => {
     try {
       const provider = await connectWallet();
@@ -13,14 +13,14 @@ const ConnectWallet = ({ setProvider } : any) => {
       setAddress(walletAddress);
       setProvider(provider);
       
-      // Save the wallet address to localStorage
+      
       localStorage.setItem('walletAddress', walletAddress);
     } catch (err) {
       console.error(err);
     }
   };
 
-  // On component mount, check if a wallet address is stored in localStorage
+  
   useEffect(() => {
     const savedAddress = localStorage.getItem('walletAddress');
     if (savedAddress) {

@@ -5,7 +5,7 @@ import { ethers } from 'ethers';
 
 const PostList = ({ posts, provider, userAddress }: { posts: any[], provider: ethers.providers.Provider | null, userAddress: string | null }) => {
   return (
-    <div className="space-y-4">
+    <div className="space-y-8">
       {posts.map((post: any) => (
         <PostCard key={post.id} post={post} provider={provider} userAddress={userAddress} />
       ))}

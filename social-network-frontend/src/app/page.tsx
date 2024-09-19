@@ -5,6 +5,7 @@ import Navbar from './components/Navbar';
 import PostList from './components/PostList';
 import { getContract } from './utils/contract';
 import { ethers } from 'ethers';
+import { useAuth } from './context/AuthContext';
 
 const Home = () => {
   const [provider, setProvider] = useState<ethers.providers.Provider | null>(null);
@@ -19,6 +20,8 @@ const Home = () => {
       setUserAddress(address);
     }
   };
+
+  const { isLoggedIn } = useAuth();
 
   useEffect(() => {
     const fetchPosts = async () => {
@@ -38,15 +41,25 @@ const Home = () => {
       }
     };
 
-    fetchPosts();
+    if (provider) {
+      fetchPosts();
+    }
   }, [provider]);
 
   return (
     <div className="min-h-screen dark-theme">
       <Navbar setProvider={setProvider} />
       <div className="container mx-auto p-4">
-        <h2 className="text-2xl font-bold mb-4">Posts</h2>
-        <PostList posts={posts} provider={provider} userAddress={userAddress} />
+        {
+          isLoggedIn? (
+            <>
+              <h2 className="text-2xl font-bold text-blue-500 border-2 border-cyan-400 p-4 rounded-2xl text-center mt-10 mb-10">Posts</h2>
+              <PostList posts={posts} provider={provider} userAddress={userAddress} />
+            </>
+          ) : (
+            <div className="text-2xl font-bold mb-4 text-blue-500 border-2 border-cyan-400 p-4 rounded-2xl text-center">Please SignIn to see posts</div>
+          )
+        }
       </div>
     </div>
   );
