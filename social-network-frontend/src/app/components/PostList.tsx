@@ -3,7 +3,7 @@
 import PostCard from './PostCard';
 import { ethers } from 'ethers';
 
-const PostList = ({ posts, provider, userAddress }: { posts: any[], provider: ethers.providers.Provider | null, userAddress: string | null }) => {
+const PostList = ({ posts, provider, userAddress }: { posts: any[], provider: any, userAddress: string | null }) => {
   return (
     <div className="space-y-4">
       {posts.map((post: any) => (
