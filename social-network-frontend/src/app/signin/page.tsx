@@ -5,12 +5,14 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { useAuth } from '../context/AuthContext';
 
 const Signin = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
   const router = useRouter();
+  const { isLoggedIn , setIsLoggedIn } = useAuth();
 
   const handleSignin = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -27,6 +29,8 @@ const Signin = () => {
 
       if (response.ok) {
         // Set some authentication state here (e.g., cookies or local storage)
+        setIsLoggedIn(true);
+        console.log(isLoggedIn);
         router.push('/');
       } else {
         alert('Signin failed');
