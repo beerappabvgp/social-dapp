@@ -32,7 +32,7 @@ export default function RootLayout({
       >
         {/* <Navbar setProvider={setProvider} /> */}
           <AuthProvider>
-           {children}
+              {children}
           </AuthProvider>
         {/* </AuthProvider> */}
       </body>
